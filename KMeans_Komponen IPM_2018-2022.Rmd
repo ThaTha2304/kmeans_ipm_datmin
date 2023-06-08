@@ -5,26 +5,184 @@ date: "2023-06-08"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+## Import Data
+```{r}
+library(readxl)
 ```
 
-## R Markdown
+```{r}
+ipm_2018 <- read_xlsx(
+  path = "Komponen IPM 2018-2022.xlsx",
+  sheet = "2018"
+)
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+ipm_2019 <- read_xlsx(
+  path = "Komponen IPM 2018-2022.xlsx",
+  sheet = "2019"
+)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+ipm_2020 <- read_xlsx(
+  path = "Komponen IPM 2018-2022.xlsx",
+  sheet = "2020"
+)
 
-```{r cars}
-summary(cars)
+ipm_2021 <- read_xlsx(
+  path = "Komponen IPM 2018-2022.xlsx",
+  sheet = "2021"
+)
+
+ipm_2022 <- read_xlsx(
+  path = "Komponen IPM 2018-2022.xlsx",
+  sheet = "2022"
+)
+
+head(ipm_2019)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+## Visualisasi Data
+### 2018
+```{r}
+boxplot(ipm_2018$UHH, main = "UHH")
+boxplot(ipm_2018$HLS, main = "HLS")
+boxplot(ipm_2018$RLS, main = "RLS")
+boxplot(ipm_2018$Pengeluaran_Riil_Kap , main = "Pengeluaran_Riil_Kap")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+### 2019
+```{r}
+boxplot(ipm_2019$UHH, main = "UHH")
+boxplot(ipm_2019$HLS, main = "HLS")
+boxplot(ipm_2019$RLS, main = "RLS")
+boxplot(ipm_2019$Pengeluaran_Riil_Kap , main = "Pengeluaran_Riil_Kap")
+```
+
+### 2020
+```{r}
+boxplot(ipm_2020$UHH, main = "UHH")
+boxplot(ipm_2020$HLS, main = "HLS")
+boxplot(ipm_2020$RLS, main = "RLS")
+boxplot(ipm_2020$Pengeluaran_Riil_Kap , main = "Pengeluaran_Riil_Kap")
+```
+
+### 2021
+```{r}
+boxplot(ipm_2021$UHH, main = "UHH")
+boxplot(ipm_2021$HLS, main = "HLS")
+boxplot(ipm_2021$RLS, main = "RLS")
+boxplot(ipm_2021$Pengeluaran_Riil_Kap , main = "Pengeluaran_Riil_Kap")
+```
+
+### 2022
+```{r}
+boxplot(ipm_2022$UHH, main = "UHH")
+boxplot(ipm_2022$HLS, main = "HLS")
+boxplot(ipm_2022$RLS, main = "RLS")
+boxplot(ipm_2022$Pengeluaran_Riil_Kap , main = "Pengeluaran_Riil_Kap")
+```
+
+## Korelasi
+### 2018
+```{r}
+corrplot(
+ cor(ipm_2018[,-1]),
+ method = 'square', 
+ type = 'lower', 
+ diag = FALSE)
+```
+
+### 2019
+```{r}
+corrplot(
+ cor(ipm_2019[,-1]),
+ method = 'square', 
+ type = 'lower', 
+ diag = FALSE)
+```
+
+### 2020
+```{r}
+corrplot(
+ cor(ipm_2020[,-1]),
+ method = 'square', 
+ type = 'lower', 
+ diag = FALSE)
+```
+
+### 2021
+```{r}
+corrplot(
+ cor(ipm_2021[,-1]),
+ method = 'square', 
+ type = 'lower', 
+ diag = FALSE)
+```
+
+### 2022
+```{r}
+corrplot(
+ cor(ipm_2022[,-1]),
+ method = 'square', 
+ type = 'lower', 
+ diag = FALSE)
+```
+
+## PCA
+### 2018
+```{r}
+pca_2018 <- prcomp(ipm_2018[,-1], scale. = T)
+summary(pca_2018)
+```
+
+```{r}
+fviz_pca_biplot(pca_2018,
+                geom = c("point","text")
+                )
+```
+
+### 2019
+```{r}
+pca_2019 <- prcomp(ipm_2019[,-1], scale. = T)
+summary(pca_2019)
+```
+
+```{r}
+fviz_pca_biplot(pca_2019,
+                geom = c("point","text")
+                )
+```
+
+### 2020
+```{r}
+pca_2020 <- prcomp(ipm_2020[,-1], scale. = T)
+summary(pca_2020)
+```
+
+```{r}
+fviz_pca_biplot(pca_2020,
+                geom = c("point","text")
+                )
+```
+
+### 2021
+```{r}
+pca_2021 <- prcomp(ipm_2021[,-1], scale. = T)
+summary(pca_2021)
+```
+
+```{r}
+fviz_pca_biplot(pca_2021,
+                geom = c("point","text")
+                )
+```
+
+### 2022
+```{r}
+pca_2022 <- prcomp(ipm_2022[,-1], scale. = T)
+summary(pca_2022)
+```
+
+```{r}
+fviz_pca_biplot(pca_2022,
+                geom = c("point","text")
+                )
+```
