@@ -8,6 +8,7 @@ output: html_document
 ## Import Data
 ```{r}
 library(readxl)
+library(dplyr)
 ```
 
 ```{r}
@@ -36,7 +37,21 @@ ipm_2022 <- read_xlsx(
   sheet = "2022"
 )
 
-head(ipm_2019)
+# Tidak select data agregat provinsi
+ipm_2018 <- ipm_2018[-1,]
+ipm_2019 <- ipm_2019[-1,]
+ipm_2020 <- ipm_2020[-1,]
+ipm_2021 <- ipm_2021[-1,]
+ipm_2022 <- ipm_2022[-1,]
+
+```
+
+```{r}
+clean_ipm_2018 <- scale(ipm_2018[,-1])
+clean_ipm_2019 <- scale(ipm_2019[,-1])
+clean_ipm_2020 <- scale(ipm_2020[,-1])
+clean_ipm_2021 <- scale(ipm_2021[,-1])
+clean_ipm_2022 <- scale(ipm_2022[,-1])
 ```
 
 ## Visualisasi Data
@@ -81,6 +96,11 @@ boxplot(ipm_2022$Pengeluaran_Riil_Kap , main = "Pengeluaran_Riil_Kap")
 ```
 
 ## Korelasi
+
+```{r}
+library(corrplot)
+```
+
 ### 2018
 ```{r}
 corrplot(
@@ -127,6 +147,11 @@ corrplot(
 ```
 
 ## PCA
+
+```{r}
+library(factoextra)
+```
+
 ### 2018
 ```{r}
 pca_2018 <- prcomp(ipm_2018[,-1], scale. = T)
@@ -186,3 +211,106 @@ fviz_pca_biplot(pca_2022,
                 geom = c("point","text")
                 )
 ```
+
+## K-Means
+### 2018
+
+```{r}
+clust_ipm_2018 <- kmeans(clean_ipm_2018, centers = 3, nstart = 20)
+clust_ipm_2018$centers
+```
+
+```{r}
+ipm_2018_clustered <- cbind.data.frame(ipm_2018, clust_ipm_2018$cluster)
+colnames(ipm_2018_clustered)[colnames(ipm_2018_clustered) == 'clust_ipm_2018$cluster'] <- 'Cluster_2018'
+```
+
+```{r}
+fviz_cluster(clust_ipm_2018, data = clean_ipm_2018, main = "2018")
+```
+
+### 2019
+
+```{r}
+clust_ipm_2019 <- kmeans(clean_ipm_2019, centers = 3, nstart = 20)
+clust_ipm_2019$centers
+```
+
+```{r}
+ipm_2019_clustered <- cbind.data.frame(ipm_2019, clust_ipm_2019$cluster)
+colnames(ipm_2019_clustered)[colnames(ipm_2019_clustered) == 'clust_ipm_2019$cluster'] <- 'Cluster_2019'
+```
+
+```{r}
+fviz_cluster(clust_ipm_2019, data = clean_ipm_2019, main = "2019")
+```
+
+### 2020
+
+```{r}
+clust_ipm_2020 <- kmeans(clean_ipm_2020, centers = 3, nstart = 20)
+clust_ipm_2020$centers
+```
+
+```{r}
+ipm_2020_clustered <- cbind.data.frame(ipm_2020, clust_ipm_2020$cluster)
+colnames(ipm_2020_clustered)[colnames(ipm_2020_clustered) == 'clust_ipm_2020$cluster'] <- 'Cluster_2020'
+```
+
+```{r}
+fviz_cluster(clust_ipm_2020, data = clean_ipm_2020, main = "2020")
+```
+
+### 2021
+
+```{r}
+clust_ipm_2021 <- kmeans(clean_ipm_2021, centers = 3, nstart = 20)
+clust_ipm_2021$centers
+```
+
+```{r}
+ipm_2021_clustered <- cbind.data.frame(ipm_2021, clust_ipm_2021$cluster)
+colnames(ipm_2021_clustered)[colnames(ipm_2021_clustered) == 'clust_ipm_2021$cluster'] <- 'Cluster_2021'
+```
+
+```{r}
+fviz_cluster(clust_ipm_2021, data = clean_ipm_2021, main = "2021")
+```
+
+### 2022
+
+```{r}
+clust_ipm_2022 <- kmeans(clean_ipm_2022, centers = 3, nstart = 20)
+clust_ipm_2022$centers
+```
+
+```{r}
+ipm_2022_clustered <- cbind.data.frame(ipm_2022, clust_ipm_2022$cluster)
+colnames(ipm_2022_clustered)[colnames(ipm_2022_clustered) == 'clust_ipm_2022$cluster'] <- 'Cluster_2022'
+```
+
+```{r}
+fviz_cluster(clust_ipm_2022, data = clean_ipm_2022, main = "2022")
+```
+
+## Export ke Excel
+```{r}
+write.csv(x = ipm_2018_clustered, file = "Komponen IPM 2018.csv")
+write.csv(x = ipm_2019_clustered, file = "Komponen IPM 2019.csv")
+write.csv(x = ipm_2020_clustered, file = "Komponen IPM 2020.csv")
+write.csv(x = ipm_2021_clustered, file = "Komponen IPM 2021.csv")
+write.csv(x = ipm_2022_clustered, file = "Komponen IPM 2022.csv")
+```
+
+```{r}
+clust_ipm_all <- cbind.data.frame(clust_ipm_2018$cluster,
+                                  clust_ipm_2019$cluster,
+                                  clust_ipm_2020$cluster,
+                                  clust_ipm_2021$cluster,
+                                  clust_ipm_2022$cluster)
+colnames(clust_ipm_all) <- c("2018","2019","2020","2021","2022")
+```
+
+
+
+
