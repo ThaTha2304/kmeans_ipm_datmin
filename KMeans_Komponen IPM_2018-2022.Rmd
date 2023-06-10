@@ -165,6 +165,7 @@ fviz_pca_biplot(pca_2018,
 ```
 
 ### 2019
+
 ```{r}
 pca_2019 <- prcomp(ipm_2019[,-1], scale. = T)
 summary(pca_2019)
@@ -216,13 +217,38 @@ fviz_pca_biplot(pca_2022,
 ### 2018
 
 ```{r}
+set.seed(123)
+fviz_nbclust(x = clean_ipm_2018 ,FUNcluster = kmeans, method = 'wss')
+```
+
+```{r}
+set.seed(123)
 clust_ipm_2018 <- kmeans(clean_ipm_2018, centers = 3, nstart = 20)
 clust_ipm_2018$centers
 ```
+Cluster yang terbentuk:
+- Cluster 1 ==> Mempunyai komponen IPM yang tinggi
+- Cluster 2 ==> Mempunyai komponen IPM yang rendah
+- Cluster 3 ==> Mempunyai komponen IPM yang sedang
+
+Untuk memudahkan interpretasi dan visualisasi, urutan cluster diubah. Komponen IPM rendah menjadi cluster 3, komponen IPM sedang menjadi cluster 2.
 
 ```{r}
 ipm_2018_clustered <- cbind.data.frame(ipm_2018, clust_ipm_2018$cluster)
 colnames(ipm_2018_clustered)[colnames(ipm_2018_clustered) == 'clust_ipm_2018$cluster'] <- 'Cluster_2018'
+
+# Untuk memudahkan interpretasi
+# Ori: (1=Tinggi; 2=Rendah; 3=Sedang)
+# Change to: (1=Tinggi; 2=Sedang; 3=Rendah)
+# Conclusion (2==>3; 3==>2)
+
+for (i in 1:nrow(ipm_2018)) {
+  if (ipm_2018_clustered[i,6] == 2) {
+    ipm_2018_clustered[i,6] <- 3
+  } else if (ipm_2018_clustered[i,6] == 3) {
+    ipm_2018_clustered[i,6] <- 2
+  }
+}
 ```
 
 ```{r}
@@ -232,6 +258,12 @@ fviz_cluster(clust_ipm_2018, data = clean_ipm_2018, main = "2018")
 ### 2019
 
 ```{r}
+set.seed(123)
+fviz_nbclust(x = clean_ipm_2019 ,FUNcluster = kmeans, method = 'wss')
+```
+
+```{r}
+set.seed(123)
 clust_ipm_2019 <- kmeans(clean_ipm_2019, centers = 3, nstart = 20)
 clust_ipm_2019$centers
 ```
@@ -239,6 +271,19 @@ clust_ipm_2019$centers
 ```{r}
 ipm_2019_clustered <- cbind.data.frame(ipm_2019, clust_ipm_2019$cluster)
 colnames(ipm_2019_clustered)[colnames(ipm_2019_clustered) == 'clust_ipm_2019$cluster'] <- 'Cluster_2019'
+
+# Untuk memudahkan interpretasi
+# Ori: (1=Tinggi; 2=Rendah; 3=Sedang)
+# Change to: (1=Tinggi; 2=Sedang; 3=Rendah)
+# Conclusion (2==>3; 3==>2)
+
+for (i in 1:nrow(ipm_2019)) {
+  if (ipm_2019_clustered[i,6] == 2) {
+    ipm_2019_clustered[i,6] <- 3
+  } else if (ipm_2019_clustered[i,6] == 3) {
+    ipm_2019_clustered[i,6] <- 2
+  }
+}
 ```
 
 ```{r}
@@ -248,6 +293,12 @@ fviz_cluster(clust_ipm_2019, data = clean_ipm_2019, main = "2019")
 ### 2020
 
 ```{r}
+set.seed(123)
+fviz_nbclust(x = clean_ipm_2020 ,FUNcluster = kmeans, method = 'wss')
+```
+
+```{r}
+set.seed(123)
 clust_ipm_2020 <- kmeans(clean_ipm_2020, centers = 3, nstart = 20)
 clust_ipm_2020$centers
 ```
@@ -255,6 +306,19 @@ clust_ipm_2020$centers
 ```{r}
 ipm_2020_clustered <- cbind.data.frame(ipm_2020, clust_ipm_2020$cluster)
 colnames(ipm_2020_clustered)[colnames(ipm_2020_clustered) == 'clust_ipm_2020$cluster'] <- 'Cluster_2020'
+
+# Untuk memudahkan interpretasi
+# Ori: (1=Tinggi; 2=Rendah; 3=Sedang)
+# Change to: (1=Tinggi; 2=Sedang; 3=Rendah)
+# Conclusion (2==>3; 3==>2)
+
+for (i in 1:nrow(ipm_2020)) {
+  if (ipm_2020_clustered[i,6] == 2) {
+    ipm_2020_clustered[i,6] <- 3
+  } else if (ipm_2020_clustered[i,6] == 3) {
+    ipm_2020_clustered[i,6] <- 2
+  }
+}
 ```
 
 ```{r}
@@ -264,6 +328,12 @@ fviz_cluster(clust_ipm_2020, data = clean_ipm_2020, main = "2020")
 ### 2021
 
 ```{r}
+set.seed(123)
+fviz_nbclust(x = clean_ipm_2021 ,FUNcluster = kmeans, method = 'wss')
+```
+
+```{r}
+set.seed(123)
 clust_ipm_2021 <- kmeans(clean_ipm_2021, centers = 3, nstart = 20)
 clust_ipm_2021$centers
 ```
@@ -271,6 +341,19 @@ clust_ipm_2021$centers
 ```{r}
 ipm_2021_clustered <- cbind.data.frame(ipm_2021, clust_ipm_2021$cluster)
 colnames(ipm_2021_clustered)[colnames(ipm_2021_clustered) == 'clust_ipm_2021$cluster'] <- 'Cluster_2021'
+
+# Untuk memudahkan interpretasi
+# Ori: (1=Tinggi; 2=Rendah; 3=Sedang)
+# Change to: (1=Tinggi; 2=Sedang; 3=Rendah)
+# Conclusion (2==>3; 3==>2)
+
+for (i in 1:nrow(ipm_2021)) {
+  if (ipm_2021_clustered[i,6] == 2) {
+    ipm_2021_clustered[i,6] <- 3
+  } else if (ipm_2021_clustered[i,6] == 3) {
+    ipm_2021_clustered[i,6] <- 2
+  }
+}
 ```
 
 ```{r}
@@ -280,6 +363,12 @@ fviz_cluster(clust_ipm_2021, data = clean_ipm_2021, main = "2021")
 ### 2022
 
 ```{r}
+set.seed(123)
+fviz_nbclust(x = clean_ipm_2022 ,FUNcluster = kmeans, method = 'wss')
+```
+
+```{r}
+set.seed(123)
 clust_ipm_2022 <- kmeans(clean_ipm_2022, centers = 3, nstart = 20)
 clust_ipm_2022$centers
 ```
@@ -287,6 +376,19 @@ clust_ipm_2022$centers
 ```{r}
 ipm_2022_clustered <- cbind.data.frame(ipm_2022, clust_ipm_2022$cluster)
 colnames(ipm_2022_clustered)[colnames(ipm_2022_clustered) == 'clust_ipm_2022$cluster'] <- 'Cluster_2022'
+
+# Untuk memudahkan interpretasi
+# Ori: (1=Tinggi; 2=Rendah; 3=Sedang)
+# Change to: (1=Tinggi; 2=Sedang; 3=Rendah)
+# Conclusion (2==>3; 3==>2)
+
+for (i in 1:nrow(ipm_2022)) {
+  if (ipm_2022_clustered[i,6] == 2) {
+    ipm_2022_clustered[i,6] <- 3
+  } else if (ipm_2022_clustered[i,6] == 3) {
+    ipm_2022_clustered[i,6] <- 2
+  }
+}
 ```
 
 ```{r}
